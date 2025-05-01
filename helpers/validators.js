@@ -42,3 +42,13 @@ export const updateRoleValidation = [
     body('newRole', 'Role is required').notEmpty(),
     validateErrorWithoutImg
 ]
+
+export const addCategoryValidator = [
+    body('name', 'Name is required').notEmpty().isLength({max : 50}).custom(existCategory),
+    validateErrorWithoutImg
+]
+
+export const updateCategoryValidation = [
+    body('name', 'Name is required').notEmpty().isLength({max : 50}).custom(existCategory),
+    validateErrorWithoutImg
+]
