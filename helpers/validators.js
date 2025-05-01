@@ -1,6 +1,6 @@
 import {body} from 'express-validator'
 import {validateErrorWithoutImg} from './validate.error.js'
-import {existUsername, existEmail} from './db.validators.js'
+import {existUsername, existEmail, existCategory} from './db.validators.js'
 
 export const registerValidator = [
     body('name', 'Name cannot be empty').notEmpty(),
