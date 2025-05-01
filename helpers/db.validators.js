@@ -1,4 +1,5 @@
 import User from '../src/user/user.model.js'
+import Category from '../src/category/category.model.js'
 import {isValidObjectId, Schema} from 'mongoose'
 
 export const existUsername = async(username)=>{
@@ -7,7 +8,7 @@ export const existUsername = async(username)=>{
         console.error(`Username ${username} already exist`);
         throw new error(`Username ${username} already exist`);
     }
-};
+}
 
 export const findUser = async (id)=>{
     try {
@@ -25,5 +26,13 @@ export const existEmail = async(email)=>{
     if(alreadyExist){
         console.error(`Email ${email} already exist`)
         throw new error(`Email ${email} already exist`)
+    }
+}
+
+export const existCategory = async(name)=>{
+    const alreadyExist = await Category.findOne({name})
+    if(alreadyExist){
+        console.error(`Category ${name} already exist`)
+        throw new error(`Category ${name} already exist`)
     }
 }

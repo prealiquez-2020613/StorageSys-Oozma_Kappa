@@ -1,4 +1,5 @@
 import User from '../src/user/user.model.js';
+import Category from '../src/category/category.model.js';
 import { encrypt } from '../utils/encrypt.js';
 
 export const initializeDatabase = async () => {
@@ -25,6 +26,18 @@ export const initializeDatabase = async () => {
             console.log('Admin user already exist');
         }
 
+        const defaultCategoryExists = await Category.findOne({ name: process.env.CATEGORY_NAME });
+
+        if (!defaultCategoryExists) {
+            const defaultCategory = new Category({
+                name: process.env.CATEGORY_NAME
+            }); 
+
+            await defaultCategory.save();
+            console.log('Default category created succesfully');
+        } else {
+            console.log('Default category already exist');
+        }
 
         console.log('Initialization succesfully');
     } catch (error) {
