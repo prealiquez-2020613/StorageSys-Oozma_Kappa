@@ -1,4 +1,4 @@
-/*import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { findUser } from '../helpers/db.validators.js';
 
 export const validateJwt = async(req, res, next) =>{
@@ -20,4 +20,17 @@ export const validateJwt = async(req, res, next) =>{
         console.error(error);
         return res.status(401).send({message : 'Invalid Token'});
     }
-}*/
+}
+
+//VALIDACIÓN DE CLIENTE
+export const adminValidation = (req, res, next) =>{
+    try {
+        if(req.user.role !== 'ADMIN'){
+            return res.status(403).send({message : 'ACCESS DENIED - Just ADMINS'});
+        }
+        next();
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({message : 'General Error'});
+    }
+};
