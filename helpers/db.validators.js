@@ -36,3 +36,42 @@ export const existCategory = async(name)=>{
         throw new error(`Category ${name} already exist`)
     }
 }
+
+//Notification
+
+// Verifica si un producto existe por ID
+export const existProductById = async (id) => {
+    if (!isValidObjectId(id)) {
+        throw new Error(`ID ${id} is not a valid MongoDB ID`)
+    }
+    
+    const productExists = await Product.findById(id)
+    if (!productExists) {
+        throw new Error(`Product with ID ${id} does not exist`)
+    }
+}
+
+// Verifica si una notificación existe por ID
+export const existNotificationById = async (id) => {
+    if (!isValidObjectId(id)) {
+        throw new Error(`ID ${id} is not a valid MongoDB ID`)
+    }
+    
+    const notificationExists = await Notification.findById(id)
+    if (!notificationExists) {
+        throw new Error(`Notification with ID ${id} does not exist`)
+    }
+}
+
+// Verifica si ya existe una notificación similar para evitar duplicados
+export const checkDuplicateNotification = async (product, type) => {
+    const existingNotification = await Notification.findOne({
+        product,
+        type,
+        seen: false
+    })
+    
+    if (existingNotification) {
+        throw new Error(`An unseen notification of type ${type} already exists for this product`)
+    }
+}
