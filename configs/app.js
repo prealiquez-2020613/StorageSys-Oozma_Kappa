@@ -8,6 +8,7 @@ import authRoutes from '../src/auth/auth.routes.js'
 import userRoutes from '../src/user/user.routes.js'
 import productRoutes from '../src/product/product.routes.js'
 import clientRoutes from '../src/client/client.routes.js'
+import movementRoutes from '../src/movement/movement.routes.js'
 import { limiter } from '../middlewares/rate.limit.js'
 import {initializeDatabase} from './initSetup.js'
 
@@ -26,6 +27,7 @@ const routes = (app)=>{
     app.use('/v1/user', userRoutes)
     app.use('/v1/product', productRoutes)      
     app.use('/v1/client', clientRoutes)
+    app.use('/v1/movement', movementRoutes)
 }
 
 

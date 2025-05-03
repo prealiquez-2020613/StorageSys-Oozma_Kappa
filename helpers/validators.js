@@ -74,3 +74,36 @@ export const updateProductValidator = [
     body('minStock', 'Min stock must be numeric').optional(),
     validateErrorWithoutImg
 ]
+
+// ----------------------------------------------- MOVEMENT ------------------------------------------------------------------
+
+export const createMovementValidator = [
+    body('product')
+        .notEmpty().withMessage('Product is required')
+        .isMongoId().withMessage('Product must be a valid MongoDB ID'),
+
+    body('type')
+        .notEmpty().withMessage('Type is required')
+        .isString().withMessage('Type must be a string')
+        .isIn(['ENTRY', 'EXIT']).withMessage('Type must be either "ENTRY" or "EXIT"'),
+
+    body('quantity')
+        .notEmpty().withMessage('Quantity is required')
+        .isInt({ min: 1 }).withMessage('Quantity must be a positive integer'),
+
+    body('employee')
+        .notEmpty().withMessage('Employee is required')
+        .isMongoId().withMessage('Employee must be a valid MongoDB ID'),
+
+    body('reason')
+        .notEmpty().withMessage('Reason is required')
+        .isString().withMessage('Reason must be a string')
+        .isLength({ max: 255 }).withMessage('Reason cannot exceed 255 characters'),
+
+    body('destination')
+        .notEmpty().withMessage('Destination is required')
+        .isString().withMessage('Destination must be a string')
+        .isLength({ max: 255 }).withMessage('Destination cannot exceed 255 characters'),
+
+    validateErrorWithoutImg
+]
