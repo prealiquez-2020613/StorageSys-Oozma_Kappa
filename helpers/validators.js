@@ -74,3 +74,15 @@ export const updateProductValidator = [
     body('minStock', 'Min stock must be numeric').optional(),
     validateErrorWithoutImg
 ]
+
+export const registerSupplierValidator = [
+    body('name').notEmpty().withMessage('Name is required').isLength({ max: 50 }).withMessage('Name cannot exceed 50 characters'),
+    body('contact').notEmpty().withMessage('Contact is required').isLength({ max: 50 }).withMessage('Contact cannot exceed 50 characters'),
+    validateErrorWithoutImg
+]
+
+export const updateSupplierValidator = [
+    body('name').optional().notEmpty().withMessage('Name cannot be empty').isLength({ max: 50 }).withMessage('Name cannot exceed 50 characters'),
+    body('contact').optional().notEmpty().withMessage('Contact cannot be empty').isLength({ max: 50 }).withMessage('Contact cannot exceed 50 characters'),
+    validateErrorWithoutImg
+]
