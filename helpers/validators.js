@@ -75,6 +75,7 @@ export const updateProductValidator = [
     validateErrorWithoutImg
 ]
 
+//Supplier
 export const registerSupplierValidator = [
     body('name').notEmpty().withMessage('Name is required').isLength({ max: 50 }).withMessage('Name cannot exceed 50 characters'),
     body('contact').notEmpty().withMessage('Contact is required').isLength({ max: 50 }).withMessage('Contact cannot exceed 50 characters'),
@@ -84,5 +85,85 @@ export const registerSupplierValidator = [
 export const updateSupplierValidator = [
     body('name').optional().notEmpty().withMessage('Name cannot be empty').isLength({ max: 50 }).withMessage('Name cannot exceed 50 characters'),
     body('contact').optional().notEmpty().withMessage('Contact cannot be empty').isLength({ max: 50 }).withMessage('Contact cannot exceed 50 characters'),
+    validateErrorWithoutImg
+]
+// Cliente
+export const addClientValidator = [
+    body('name', 'Name is required').notEmpty(),
+    body('name', 'Name cannot exceed 50 characters').isLength({ max: 50 }),
+    body('contact', 'Contact is required').notEmpty().isLength({ max: 50 }),
+    body('company', 'Company is required').notEmpty().isLength({ max: 50 }),
+    validateErrorWithoutImg
+  ]
+
+  export const updateClientValidation = [
+    body('name').optional().notEmpty().withMessage('Name cannot be empty').isLength({ max: 50 }).withMessage('Name cannot exceed 50 characters'),
+    body('contact').optional().notEmpty().withMessage('Contact cannot be empty').isLength({ max: 50 }).withMessage('Contact cannot exceed 50 characters'),
+    body('company').optional().notEmpty().withMessage('Company cannot be empty').isLength({ max: 50 }).withMessage('Company cannot exceed 50 characters'),
+    validateErrorWithoutImg
+  ]
+
+
+// ----------------------------------------------- MOVEMENT ------------------------------------------------------------------
+
+export const createMovementValidator = [
+    body('product')
+        .notEmpty().withMessage('Product is required')
+        .isMongoId().withMessage('Product must be a valid MongoDB ID'),
+
+    body('type')
+        .notEmpty().withMessage('Type is required')
+        .isString().withMessage('Type must be a string')
+        .isIn(['ENTRY', 'EXIT']).withMessage('Type must be either "ENTRY" or "EXIT"'),
+
+    body('quantity')
+        .notEmpty().withMessage('Quantity is required')
+        .isInt({ min: 1 }).withMessage('Quantity must be a positive integer'),
+
+    body('employee')
+        .notEmpty().withMessage('Employee is required')
+        .isMongoId().withMessage('Employee must be a valid MongoDB ID'),
+
+    body('reason')
+        .notEmpty().withMessage('Reason is required')
+        .isString().withMessage('Reason must be a string')
+        .isLength({ max: 255 }).withMessage('Reason cannot exceed 255 characters'),
+
+    body('destination')
+        .notEmpty().withMessage('Destination is required')
+        .isString().withMessage('Destination must be a string')
+        .isLength({ max: 255 }).withMessage('Destination cannot exceed 255 characters'),
+
+    validateErrorWithoutImg
+]
+
+
+//Notification
+// Validación para crear notificaciones manualmente
+export const notificationValidator = [
+    body('product', 'Product ID is required').notEmpty().isMongoId(),
+    body('type', 'Type is required and must be valid').notEmpty().isIn(['LOW_STOCK', 'EXPIRATION']),
+    body('message', 'Message is required').notEmpty(),
+    validateErrorWithoutImg
+]
+
+// Validación para actualizar notificaciones
+export const updateNotificationValidator = [
+    body('product', 'Product ID must be valid').optional().isMongoId(),
+    body('type', 'Type must be valid').optional().isIn(['LOW_STOCK', 'EXPIRATION']),
+    body('message', 'Message cannot be empty if provided').optional().notEmpty(),
+    body('seen', 'Seen must be a boolean value').optional().isBoolean(),
+    validateErrorWithoutImg
+]
+
+// Validación para configurar alertas de stock mínimo
+export const minStockValidator = [
+    body('minStock', 'Minimum stock value is required and must be a number').notEmpty().isNumeric(),
+    validateErrorWithoutImg
+]
+
+// Validación para configurar el periodo de alertas de vencimiento
+export const expirationAlertValidator = [
+    body('daysBeforeExpiration', 'Days before expiration must be a number').notEmpty().isNumeric(),
     validateErrorWithoutImg
 ]
