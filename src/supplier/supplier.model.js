@@ -11,11 +11,7 @@ const supplierSchema = Schema(
             type: String,
             required: [true, 'Contact is required'],
             maxLength: [50, `Can't be overcome 50 characters`]
-        },
-        products: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Product'
-        }]
+        }
     }
 )
 
