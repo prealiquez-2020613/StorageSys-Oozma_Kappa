@@ -34,7 +34,7 @@ export const deleteSupplier = async (req, res) => {
 
 export const getSuppliers = async (req, res) => {
     try {
-        const suppliers = await Supplier.find().populate('products', 'name category');
+        const suppliers = await Supplier.find();
         res.json({ message: 'Suppliers retrieved', suppliers });
     } catch (err) {
         res.status(500).json({ message: 'Error retrieving suppliers', error: err });
@@ -44,7 +44,7 @@ export const getSuppliers = async (req, res) => {
 export const getSupplierById = async (req, res) => {
     try {
         const { id } = req.params;
-        const supplier = await Supplier.findById(id).populate('products', 'name category');
+        const supplier = await Supplier.findById(id);
         if (!supplier) return res.status(404).json({ message: 'Supplier not found' });
         res.json({ message: 'Supplier found', supplier });
     } catch (err) {
