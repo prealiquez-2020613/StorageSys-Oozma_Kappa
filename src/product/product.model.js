@@ -27,8 +27,7 @@ const productSchema = new Schema(
             required: [true, 'Etry date is required']
         },
         expirationDate: {
-            type: Date,
-            required: [true, 'Expiration date is required']
+            type: Date
         },
         minStock: {
             type: Number,

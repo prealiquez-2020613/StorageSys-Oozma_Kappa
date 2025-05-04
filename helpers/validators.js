@@ -55,20 +55,20 @@ export const updateCategoryValidation = [
 
 export const addProductValidator = [
     body('name', 'Name cannot be empty').notEmpty(),
-    body('category', 'Category is required').notEmpty(),
+    body('category', 'Category is required').notEmpty().isMongoId().withMessage('Category must be a valid ID'),
     body('stock', 'Stock is required').notEmpty(),
-    body('supplier', 'Supplier is required').notEmpty(),
+    body('supplier', 'Supplier is required').notEmpty().isMongoId().withMessage('Supplier must be a valid ID'),
     body('entryDate', 'Entry date is required').notEmpty().isISO8601().toDate(),
-    body('expirationDate', 'Expiration date is required').notEmpty().isISO8601().toDate(),
+    body('expirationDate', 'Expiration date is required').optional().notEmpty().isISO8601().toDate(),
     body('minStock', 'Min stock must be numeric').optional(),
     validateErrorWithoutImg
 ]
 
 export const updateProductValidator = [
     body('name', 'Name cannot be empty').optional().notEmpty(),
-    body('category', 'Category is required').optional().notEmpty(),
+    body('category', 'Category is required').optional().notEmpty().isMongoId().withMessage('Category must be a valid ID'),
     body('stock', 'Stock is required').optional().notEmpty(),
-    body('supplier', 'Supplier is required').optional().notEmpty(),
+    body('supplier', 'Supplier is required').optional().notEmpty().isMongoId().withMessage('Supplier must be a valid ID'),
     body('entryDate', 'Entry date is required').optional().notEmpty().isISO8601().toDate(),
     body('expirationDate', 'Expiration date is required').optional().notEmpty().isISO8601().toDate(),
     body('minStock', 'Min stock must be numeric').optional(),

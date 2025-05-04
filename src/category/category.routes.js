@@ -7,7 +7,7 @@ const api = Router()
 
 //Rutas privadas
 api.post('/addCategory', [validateJwt, adminValidation, addCategoryValidator], addCategory)
-api.get('/allCategories', [validateJwt, adminValidation], allCategories)
+api.get('/allCategories', [validateJwt], allCategories)
 api.put('/updateCategory/:id', [validateJwt, adminValidation, updateCategoryValidation], updateCategory)
 api.delete('/deleteCategory/:id', [validateJwt, adminValidation], deleteCategory)
 
