@@ -5,10 +5,10 @@ import { adminValidation, validateJwt } from '../../middlewares/validate.jwt.js'
 
 const api = express.Router()
 
-api.get('/movements', [validateJwt],getAllMovements)
-api.get('/movements/:id', [validateJwt],getMovementById)
-api.post('/movements', [validateJwt], createMovementValidator, createMovement)
-api.delete('/movements/:id', [validateJwt], deleteMovement)
-api.get('/movements/filter', [validateJwt], filterMovements)
+api.get('/getMovements', [validateJwt],getAllMovements)
+api.get('/findMovement/:id', [validateJwt],getMovementById)
+api.post('/createMovements', [validateJwt], createMovementValidator, createMovement)
+api.delete('/deleteMovements/:id', [validateJwt], deleteMovement)
+api.get('/filterMovements/filter', [validateJwt], filterMovements)
 
 export default api
