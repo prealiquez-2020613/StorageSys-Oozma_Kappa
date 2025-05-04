@@ -1,5 +1,6 @@
 import Movement from './movement.model.js'
 import Product from '../product/product.model.js'
+import User from '../user/user.model.js'
 
 export const getAllMovements = async (req, res) => {
     try {
@@ -24,12 +25,16 @@ export const getAllMovements = async (req, res) => {
 
 export const createMovement = async (req, res) => {
     try {
-        const { productId } = req.params
-        const { type, quantity, employee, reason, destination } = req.body
+        const { product, type, quantity, employee, reason, destination } = req.body
 
-        const productDoc = await Product.findById(productId)
+        const productDoc = await Product.findById(product)
         if (!productDoc) {
             return res.status(404).send({ success: false, message: 'Product not found' })
+        }
+
+        const employeeID = await User.findById(employee)
+        if (!employeeID) {
+            return res.status(404).send({ success: false, message: 'Employee not found' })
         }
 
         if (quantity <= 0) {
@@ -43,10 +48,22 @@ export const createMovement = async (req, res) => {
                     message: `Insufficient stock for product '${productDoc.name}'. Available: ${productDoc.stock}`
                 })
             }
-            productDoc.stock -= quantity
-            productDoc.soldUnits += quantity
+
+            const num1 = productDoc.stock * 1
+            const num2 = quantity * 1
+            const total = num1 - num2
+            productDoc.stock = total
+
+            const movementUnits = productDoc.soldUnits * 1
+            const totalMovementUnits = movementUnits + num2
+            productDoc.soldUnits = totalMovementUnits
         } else if (type === 'ENTRY') {
-            productDoc.stock += quantity
+
+            const num1 = productDoc.stock * 1
+            const num2 = quantity * 1
+            const total = num1 + num2
+            productDoc.stock = total
+
         } else {
             return res.status(400).send({ success: false, message: 'Invalid movement type' })
         }
