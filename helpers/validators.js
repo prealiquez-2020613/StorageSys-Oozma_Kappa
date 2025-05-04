@@ -59,7 +59,7 @@ export const addProductValidator = [
     body('stock', 'Stock is required').notEmpty(),
     body('supplier', 'Supplier is required').notEmpty().isMongoId().withMessage('Supplier must be a valid ID'),
     body('entryDate', 'Entry date is required').notEmpty().isISO8601().toDate(),
-    body('expirationDate', 'Expiration date is required').notEmpty().isISO8601().toDate(),
+    body('expirationDate', 'Expiration date is required').optional().notEmpty().isISO8601().toDate(),
     body('minStock', 'Min stock must be numeric').optional(),
     validateErrorWithoutImg
 ]
