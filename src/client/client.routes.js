@@ -5,8 +5,8 @@ import { addClientValidator, updateClientValidation } from '../../helpers/valida
 
 const api = Router()
 
-api.post('/addClient', [validateJwt, adminValidation, addClientValidator], save)
-api.get('/allClients', [validateJwt, adminValidation], getAll)
+api.post('/addClient', [validateJwt, addClientValidator], save)
+api.get('/allClients', [validateJwt], getAll)
 api.put('/updateClient/:id', [validateJwt, adminValidation, updateClientValidation], update)
 api.delete('/deleteClient/:id', [validateJwt, adminValidation], eliminate)
 
