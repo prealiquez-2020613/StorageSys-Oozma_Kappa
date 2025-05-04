@@ -1,4 +1,5 @@
 import Movement from './movement.model.js'
+import Product from '../product/product.model.js'
 
 export const getAllMovements = async (req, res) => {
     try {
@@ -23,8 +24,32 @@ export const getAllMovements = async (req, res) => {
 
 export const createMovement = async (req, res) => {
     try {
+        const { productId } = req.params
         const { type, quantity, employee, reason, destination } = req.body
-        const productDoc = req.productDoc
+
+        const productDoc = await Product.findById(productId)
+        if (!productDoc) {
+            return res.status(404).send({ success: false, message: 'Product not found' })
+        }
+
+        if (quantity <= 0) {
+            return res.status(400).send({ success: false, message: 'Quantity must be greater than 0' })
+        }
+
+        if (type === 'EXIT') {
+            if (quantity > productDoc.stock) {
+                return res.status(400).send({
+                    success: false,
+                    message: `Insufficient stock for product '${productDoc.name}'. Available: ${productDoc.stock}`
+                })
+            }
+            productDoc.stock -= quantity
+            productDoc.soldUnits += quantity
+        } else if (type === 'ENTRY') {
+            productDoc.stock += quantity
+        } else {
+            return res.status(400).send({ success: false, message: 'Invalid movement type' })
+        }
 
         const movement = new Movement({
             product: productDoc._id,
@@ -36,19 +61,18 @@ export const createMovement = async (req, res) => {
         })
 
         await movement.save()
-
-        productDoc.quantity += (type === 'ENTRY' ? quantity : -quantity)
         await productDoc.save()
 
         return res.send({
-            message: 'Movement recorded successfully',
             success: true,
+            message: 'Movement recorded successfully',
             movement
         })
     } catch (error) {
+        console.error(error)
         return res.status(500).send({
-            message: 'Error creating movement',
             success: false,
+            message: 'Error creating movement',
             error
         })
     }
