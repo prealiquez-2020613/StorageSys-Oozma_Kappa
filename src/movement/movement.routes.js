@@ -1,6 +1,6 @@
 import express from 'express'
-import { getAllMovements, createMovement, getMovementById, deleteMovement, filterMovements } from '../controllers/movementController.js'
-import { createMovementValidator } from '../validators/movementValidator.js'
+import { getAllMovements, createMovement, getMovementById, deleteMovement, filterMovements } from './movement.controller.js'
+import { createMovementValidator } from '../../helpers/validators.js'
 import { adminValidation, validateJwt } from '../../middlewares/validate.jwt.js'
 
 const api = express.Router()
