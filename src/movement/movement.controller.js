@@ -125,20 +125,55 @@ export const getMovementById = async (req, res) => {
 
 export const deleteMovement = async (req, res) => {
     try {
-        const { movement, product, rollback } = req
+        const { id } = req.params
 
-        product.quantity += rollback
+        const movement = await Movement.findById(id)
+        if (!movement) {
+            return res.status(404).send({ success: false, message: 'Movement not found' })
+        }
+
+        const product = await Product.findById(movement.product)
+        if (!product) {
+            return res.status(404).send({ success: false, message: 'Associated product not found' })
+        }
+
+        const quantity = movement.quantity
+
+        if (movement.type === 'EXIT') {
+
+            const num1 = quantity * 1
+            const num2 = product.stock * 1
+            const stockTotal = num1 + num2
+            product.stock = stockTotal
+
+            const num3 = product.soldUnits * 1
+            const soldUnitsTotal = num3 - num2
+            product.soldUnits = soldUnitsTotal
+
+            if (product.soldUnits < 0) product.soldUnits = 0
+
+        } else if (movement.type === 'ENTRY') {
+
+            const num1 = product.stock * 1
+            const num2 = quantity * 1
+            const stockTotal = num1 - num2
+
+            product.stock = stockTotal
+            if (product.stock < 0) product.stock = 0
+        }
+
         await product.save()
         await movement.deleteOne()
 
         return res.send({
-            message: 'Movement deleted and inventory updated',
-            success: true
+            success: true,
+            message: 'Movement deleted and inventory updated'
         })
     } catch (error) {
+        console.error(error)
         return res.status(500).send({
-            message: 'Error deleting movement',
             success: false,
+            message: 'Error deleting movement',
             error
         })
     }
