@@ -1,5 +1,4 @@
-import Movement from '../models/Movement.js'
-import Product from '../models/Product.js'
+import Movement from './movement.model.js'
 
 export const getAllMovements = async (req, res) => {
     try {
@@ -21,8 +20,6 @@ export const getAllMovements = async (req, res) => {
         })
     }
 }
-
-import Movement from '../models/Movement.js'
 
 export const createMovement = async (req, res) => {
     try {

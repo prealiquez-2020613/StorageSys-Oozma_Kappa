@@ -17,13 +17,13 @@ import { addProductValidator, updateProductValidator } from '../../helpers/valid
 const router = Router()
 
 router.post('/add', [validateJwt, adminValidation, addProductValidator], addProduct)
-router.get('/', validateJwt, getProducts)
-router.get('/:id', validateJwt, getProductById)
-router.put('/update/:id', [validateJwt, adminValidation, updateProductValidator], updateProduct)
-router.delete('/delete/:id', [validateJwt, adminValidation], deleteProduct)
-router.get('/out-of-stock', [validateJwt, adminValidation], getOutOfStockProducts)
-router.get('/most-moved', validateJwt, getMostMovedProducts)
-router.get('/by-category/:categoryId', validateJwt, getProductsByCategory)
-router.get('/search', validateJwt, searchProductsByName)
+router.get('/getProducts', validateJwt, getProducts)
+router.get('/searchProduct/:id', validateJwt, getProductById)
+router.put('/updateProduct/:id', [validateJwt, adminValidation, updateProductValidator], updateProduct)
+router.delete('/deleteProduct/:id', [validateJwt, adminValidation], deleteProduct)
+router.get('/getOutOfStock', [validateJwt, adminValidation], getOutOfStockProducts)
+router.get('/getMostMoved', validateJwt, getMostMovedProducts)
+router.get('/getProductByCategory/:categoryId', validateJwt, getProductsByCategory)
+router.get('/searchProduct', validateJwt, searchProductsByName)
 
 export default router

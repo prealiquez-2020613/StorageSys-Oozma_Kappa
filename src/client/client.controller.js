@@ -1,4 +1,4 @@
-import Client from './client.model'
+import Client from './client.model.js'
 
 export const save = async (req, res) => {
     try {
